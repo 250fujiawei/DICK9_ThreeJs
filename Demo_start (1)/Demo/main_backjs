@@ -1,0 +1,77 @@
+import './style.scss'
+
+// yarn add three
+// yarn add -D @types/three
+import * as THREE from 'three'
+
+
+
+// 场景
+const scene = new THREE.Scene()
+
+// 相机 透视相机
+const camera = new THREE.PerspectiveCamera(
+    // fov 视角
+    45,  
+    // aspec ratio 宽高比
+    window.innerWidth / window.innerHeight,
+    // near 最近渲染距离
+    0.1,
+    // far 最远渲染距离
+    1000
+)
+
+// 渲染器
+const renderer =new THREE.WebGLRenderer(
+    // 抗锯齿
+   {antialias  : true
+
+
+}
+)
+
+// 设置渲染器大小
+renderer.setSize(window.innerWidth,window.innerHeight)
+renderer.domElement.id = 'threejs_scene'
+document.querySelector('#app').appendChild(renderer.domElement)
+
+
+
+// 立方体
+const geometry = new THREE.BoxGeometry(1,1,1)
+
+// 材质
+const material =new THREE.MeshBasicMaterial({
+color: 0x00ff00,
+wireframe:true
+})
+
+// 网格
+const cube = new THREE.Mesh(geometry,material)
+cube.rotation.x=0.5
+cube.rotation.y=0.5
+// 网格添加到场景中
+scene.add(cube)
+
+camera.position.z =3
+
+// setTimeout() 一次性定时器
+
+// 持续定时器
+// setInterval(()=>{
+//     cube.rotation.x+=0.01
+//     cube.rotation.y+=0.01
+//     cube.rotation.z+=0.01
+//     renderer.render(scene,camera)
+
+// },16.7)
+
+function animate() {
+requestAnimationFrame(animate)
+cube.rotation.x+=0.01
+cube.rotation.y+=0.01
+cube.rotation.z+=0.01
+renderer.render(scene,camera)
+}
+
+animate()
